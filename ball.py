@@ -17,7 +17,9 @@ class Ball:
         self.found = exploring_path_info['found']
 
         self.current_matrix = self.maze.get_maze_for_iteration(self.iterations)
-        self.current_position_point = self.get_point_in_matrix_given_coordinates(self.current_row, self.current_col)
+        self.current_position_point = \
+            self.get_point_in_matrix_given_coordinates(
+                self.current_row, self.current_col)
 
     def can_move_to_right_from_current_position(self, current_point):
         return self.can_move_left(current_point)
@@ -73,19 +75,23 @@ class Ball:
 
         return new_pos
 
-    def get_point_in_matrix_given_coordinates(self, row, col) -> Union[int, str]:
+    def get_point_in_matrix_given_coordinates(self, row, col) -> \
+            Union[int, str]:
         # check bound condition
-        if row >= self.maze.total_rows or col >= self.maze.total_cols or row < 0 or col < 0:
+        if row >= self.maze.total_rows or col >= self.maze.total_cols or \
+                row < 0 or col < 0:
             return None
 
         return self.current_matrix[row][col]
 
-    def get_iterations_required_to_move_right(self, move_to) -> int:
+    def get_iterations_required_to_move_right(self, move_to) -> \
+            int:
         iterations = 0
         current_point = self.current_position_point
 
         while True:
-            if self.can_move_right(move_to) and self.can_move_to_right_from_current_position(current_point):
+            if self.can_move_right(move_to) and \
+                 self.can_move_to_right_from_current_position(current_point):
                 return iterations
 
             current_point = self.maze.left_rotate_number(current_point)
@@ -95,12 +101,14 @@ class Ball:
             if iterations > 4:
                 return -1
 
-    def get_iterations_required_to_move_up(self, move_to) -> int:
+    def get_iterations_required_to_move_up(self, move_to) -> \
+            int:
         iterations = 0
         current_point = self.current_position_point
 
         while True:
-            if self.can_move_up(move_to) and self.can_move_to_up_from_current_position(current_point):
+            if self.can_move_up(move_to) and \
+                    self.can_move_to_up_from_current_position(current_point):
                 return iterations
 
             current_point = self.maze.left_rotate_number(current_point)
@@ -110,12 +118,14 @@ class Ball:
             if iterations > 4:
                 return -1
 
-    def get_iterations_required_to_move_down(self, move_to) -> int:
+    def get_iterations_required_to_move_down(self, move_to) -> \
+            int:
         iterations = 0
         current_point = self.current_position_point
 
         while True:
-            if self.can_move_down(move_to) and self.can_move_to_down_from_current_position(current_point):
+            if self.can_move_down(move_to) and \
+                    self.can_move_to_down_from_current_position(current_point):
                 return iterations
 
             current_point = self.maze.left_rotate_number(current_point)
@@ -125,12 +135,14 @@ class Ball:
             if iterations > 4:
                 return -1
 
-    def get_iterations_required_to_move_left(self, move_to) -> int:
+    def get_iterations_required_to_move_left(self, move_to) -> \
+            int:
         iterations = 0
         current_point = self.current_position_point
 
         while True:
-            if self.can_move_left(move_to) and self.can_move_to_left_from_current_position(current_point):
+            if self.can_move_left(move_to) and \
+                    self.can_move_to_left_from_current_position(current_point):
                 return iterations
 
             current_point = self.maze.left_rotate_number(current_point)
@@ -155,7 +167,8 @@ class Ball:
 
     def get_paths(self):
         """
-        Constructs all possible paths i.e. left, up, down, right from current position
+        Constructs all possible paths i.e. left, up,
+            down, right from current position
         """
 
         # getting direction coordinates w.r.t current position
@@ -164,22 +177,31 @@ class Ball:
         right_coordinate = self.get_new_coordinate_based_on_direction("right")
         left_coordinate = self.get_new_coordinate_based_on_direction("left")
 
-        up_point = self.get_point_in_matrix_given_coordinates(up_coordinate[0], up_coordinate[1])
-        down_point = self.get_point_in_matrix_given_coordinates(down_coordinate[0], down_coordinate[1])
-        right_point = self.get_point_in_matrix_given_coordinates(right_coordinate[0], right_coordinate[1])
-        left_point = self.get_point_in_matrix_given_coordinates(left_coordinate[0], left_coordinate[1])
+        up_point = self.get_point_in_matrix_given_coordinates(
+            up_coordinate[0], up_coordinate[1])
+        down_point = self.get_point_in_matrix_given_coordinates(
+            down_coordinate[0], down_coordinate[1])
+        right_point = self.get_point_in_matrix_given_coordinates(
+            right_coordinate[0], right_coordinate[1])
+        left_point = self.get_point_in_matrix_given_coordinates(
+            left_coordinate[0], left_coordinate[1])
 
         # getting number of intervals required to visit the position
-        up_iters = -1 if up_point is None or up_coordinate in self.visited_points else self.get_iterations_required_to_move_up(
-            up_point)
-        down_iters = -1 if down_point is None or down_coordinate in self.visited_points else self.get_iterations_required_to_move_down(
-            down_point)
-        right_iters = -1 if right_point is None or right_coordinate in self.visited_points else self.get_iterations_required_to_move_right(
-            right_point)
-        left_iters = -1 if left_point is None or left_coordinate in self.visited_points else self.get_iterations_required_to_move_left(
-            left_point)
+        up_iters = -1 if up_point is None or up_coordinate in \
+            self.visited_points else \
+            self.get_iterations_required_to_move_up(up_point)
+        down_iters = -1 if down_point is None or down_coordinate in \
+            self.visited_points else \
+            self.get_iterations_required_to_move_down(down_point)
+        right_iters = -1 if right_point is None or right_coordinate in \
+            self.visited_points else \
+            self.get_iterations_required_to_move_right(right_point)
+        left_iters = -1 if left_point is None or left_coordinate in \
+            self.visited_points else \
+            self.get_iterations_required_to_move_left(left_point)
 
-        # constructing path based on number of intervals and currently generated path
+        # constructing path based on number of intervals and
+        # currently generated path
         up_path = self.construct_new_path(up_iters, "up")
         down_path = self.construct_new_path(down_iters, "down")
         right_path = self.construct_new_path(right_iters, "right")
@@ -196,26 +218,38 @@ class Ball:
         if up_path is not None and up_total_iters <= dimensions:
             up_visited = list(self.visited_points)
             up_visited.append(up_coordinate)
-            generated_paths.append(generate_path(up_path, up_total_iters, up_coordinate, up_visited,
-                                                 True if up_point == finish_point else False))
+            generated_paths.append(generate_path(up_path, up_total_iters,
+                                                 up_coordinate, up_visited,
+                                                 True if
+                                                 up_point == finish_point
+                                                 else False))
         if down_path is not None and down_total_iters <= dimensions:
             down_visited = list(self.visited_points)
             down_visited.append(down_coordinate)
-            generated_paths.append(generate_path(down_path, down_total_iters, down_coordinate, down_visited,
-                                                 True if down_point == finish_point else False))
+            generated_paths.append(generate_path(down_path, down_total_iters,
+                                                 down_coordinate, down_visited,
+                                                 True if
+                                                 down_point == finish_point
+                                                 else False))
         if right_path is not None and right_total_iters <= dimensions:
             right_visited = list(self.visited_points)
             right_visited.append(right_coordinate)
-            generated_paths.append(generate_path(right_path, right_total_iters, right_coordinate, right_visited,
-                                                 True if right_point == finish_point else False))
+            generated_paths.append(generate_path(right_path, right_total_iters,
+                                                 right_coordinate,
+                                                 right_visited,
+                                                 True if
+                                                 right_point == finish_point
+                                                 else False))
         if left_path is not None and left_total_iters <= dimensions:
             left_visited = list(self.visited_points)
             left_visited.append(left_coordinate)
-            generated_paths.append(generate_path(left_path, left_total_iters, left_coordinate, left_visited,
-                                                 True if left_point == finish_point else False))
+            generated_paths.append(generate_path(left_path, left_total_iters,
+                                                 left_coordinate, left_visited,
+                                                 True if
+                                                 left_point == finish_point
+                                                 else False))
 
         return generated_paths
 
     def add_iterations(self, iters_to_add: int) -> int:
         return self.iterations + iters_to_add
-

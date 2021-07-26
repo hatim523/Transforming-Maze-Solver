@@ -23,7 +23,8 @@ class Maze:
         third_form = self.transform_matrix(second_form)
         fourth_form = self.transform_matrix(third_form)
         self.transformed_maze = [
-            self.transform_matrix(fourth_form), second_form, third_form, fourth_form
+            self.transform_matrix(fourth_form), second_form,
+            third_form, fourth_form
         ]
 
     def transform_matrix(self, matrix):
@@ -43,7 +44,8 @@ class Maze:
 
     def left_rotate_number(self, number: Union[str, int]) -> Union[str, int]:
         # special condition when it is starting or ending position
-        if type(number) == str: return number
+        if type(number) == str:
+            return number
         rotated = number * 2
         return rotated if rotated <= 15 else rotated - 15
 
